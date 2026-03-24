@@ -1,7 +1,7 @@
 import React, { useEffect, useState, useCallback } from 'react';
 import {
   Table, Button, Typography, message, Modal, Upload, Form,
-  InputNumber, Spin, Space, Input, Card, Tag, Popconfirm,
+  InputNumber, Spin, Space, Input, Card, Tag,
 } from 'antd';
 import {
   DownloadOutlined, UploadOutlined, SearchOutlined,
@@ -89,7 +89,6 @@ const HrPayslips: React.FC = () => {
   const [uploadModal, setUploadModal] = useState<{ open: boolean; user: SearchUser | null }>({ open: false, user: null });
   const [uploading, setUploading] = useState(false);
   const [duplicateWarning, setDuplicateWarning] = useState(false);
-  const [confirmUpload, setConfirmUpload] = useState(false);
   const [pendingUpload, setPendingUpload] = useState<FormData | null>(null);
   const [userPayslips, setUserPayslips] = useState<Record<number, UserPayslip[]>>({});
   const [expandedRowKeys, setExpandedRowKeys] = useState<number[]>([]);
@@ -142,7 +141,6 @@ const HrPayslips: React.FC = () => {
   const openUploadModal = (user: SearchUser) => {
     setUploadModal({ open: true, user });
     setDuplicateWarning(false);
-    setConfirmUpload(false);
     setPendingUpload(null);
     form.resetFields();
     form.setFieldsValue({
@@ -159,7 +157,6 @@ const HrPayslips: React.FC = () => {
       setUploadModal({ open: false, user: null });
       form.resetFields();
       setDuplicateWarning(false);
-      setConfirmUpload(false);
       setPendingUpload(null);
       if (uploadModal.user) {
         loadUserPayslips(uploadModal.user.id);
@@ -193,12 +190,6 @@ const HrPayslips: React.FC = () => {
     }
 
     await doUpload(formData);
-  };
-
-  const handleConfirmDuplicate = async () => {
-    if (!pendingUpload) return;
-    setConfirmUpload(true);
-    await doUpload(pendingUpload);
   };
 
   const userColumns = [
