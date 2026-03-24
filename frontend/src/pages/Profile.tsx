@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { Card, Form, Input, Button, Typography, message, Descriptions, Spin, Space } from 'antd';
 import { profileApi } from '../services/api';
-import { User } from '../types';
+import type { User } from '../types';
 
 const { Title } = Typography;
 

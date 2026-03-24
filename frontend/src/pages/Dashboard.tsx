@@ -3,7 +3,7 @@ import { Card, Col, Row, Typography, List, Tag, Statistic, Spin } from 'antd';
 import { NotificationOutlined, FormOutlined, TeamOutlined } from '@ant-design/icons';
 import { useAuth } from '../context/AuthContext';
 import { announcementApi, requestApi } from '../services/api';
-import { Announcement, AdminRequest } from '../types';
+import type { Announcement, AdminRequest } from '../types';
 
 const { Title } = Typography;
 

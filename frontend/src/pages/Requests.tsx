@@ -3,7 +3,7 @@ import { Table, Button, Typography, message, Modal, Form, Input, Select, Tag, Sp
 import { PlusOutlined } from '@ant-design/icons';
 import { requestApi } from '../services/api';
 import { useAuth } from '../context/AuthContext';
-import { AdminRequest } from '../types';
+import type { AdminRequest } from '../types';
 
 const { Title } = Typography;
 const { TextArea } = Input;

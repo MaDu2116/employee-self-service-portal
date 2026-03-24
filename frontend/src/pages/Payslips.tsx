@@ -3,7 +3,7 @@ import { Table, Button, Typography, message, Modal, Upload, Form, InputNumber, S
 import { DownloadOutlined, UploadOutlined } from '@ant-design/icons';
 import { payslipApi } from '../services/api';
 import { useAuth } from '../context/AuthContext';
-import { Payslip } from '../types';
+import type { Payslip } from '../types';
 
 const { Title } = Typography;
 

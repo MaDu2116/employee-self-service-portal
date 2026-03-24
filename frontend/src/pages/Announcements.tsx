@@ -3,7 +3,7 @@ import { List, Card, Typography, Button, Modal, Form, Input, message, Spin, Spac
 import { PlusOutlined } from '@ant-design/icons';
 import { announcementApi } from '../services/api';
 import { useAuth } from '../context/AuthContext';
-import { Announcement } from '../types';
+import type { Announcement } from '../types';
 
 const { Title, Paragraph } = Typography;
 const { TextArea } = Input;

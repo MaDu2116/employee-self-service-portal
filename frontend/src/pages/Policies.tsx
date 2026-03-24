@@ -3,7 +3,7 @@ import { Card, Input, Select, Typography, List, Tag, Button, Modal, Form, messag
 import { PlusOutlined, SearchOutlined } from '@ant-design/icons';
 import { policyApi } from '../services/api';
 import { useAuth } from '../context/AuthContext';
-import { Policy } from '../types';
+import type { Policy } from '../types';
 
 const { Title, Paragraph } = Typography;
 const { TextArea } = Input;

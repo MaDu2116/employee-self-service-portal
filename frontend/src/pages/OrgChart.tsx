@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react';
 import { Typography, Spin, Card, Tag } from 'antd';
 import { Tree, TreeNode } from 'react-organizational-chart';
 import { orgChartApi } from '../services/api';
-import { Department } from '../types';
+import type { Department } from '../types';
 
 const { Title } = Typography;
 
