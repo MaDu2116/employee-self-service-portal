@@ -44,9 +44,17 @@ export const profileApi = {
     api.put('/api/profile', data),
 };
 
+// Users
+export const userApi = {
+  search: (q: string) => api.get('/api/users/search', { params: { q } }),
+};
+
 // Payslips
 export const payslipApi = {
   getAll: () => api.get('/api/payslips'),
+  getByUserId: (userId: number) => api.get(`/api/payslips/user/${userId}`),
+  checkExisting: (userId: number, month: number, year: number) =>
+    api.get('/api/payslips/check', { params: { userId, month, year } }),
   download: (id: number) =>
     api.get(`/api/payslips/${id}/download`, { responseType: 'blob' }),
   upload: (formData: FormData) =>

@@ -6,6 +6,14 @@ export const payslipService = {
     return payslipRepository.findByUserId(userId);
   },
 
+  getPayslipsByUserId: async (userId: number) => {
+    return payslipRepository.findByUserIdWithUser(userId);
+  },
+
+  checkExisting: async (userId: number, month: number, year: number) => {
+    return payslipRepository.findExisting(userId, month, year);
+  },
+
   getPayslipFile: async (payslipId: number, userId: number, userRole: string) => {
     const payslip = await payslipRepository.findById(payslipId);
     if (!payslip) {

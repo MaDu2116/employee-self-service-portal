@@ -13,6 +13,28 @@ export const payslipController = {
     }
   },
 
+  getPayslipsByUserId: async (req: AuthRequest, res: Response, next: NextFunction): Promise<void> => {
+    try {
+      const userId = parseInt(req.params.userId as string, 10);
+      const payslips = await payslipService.getPayslipsByUserId(userId);
+      res.json({ success: true, data: payslips });
+    } catch (error) {
+      next(error);
+    }
+  },
+
+  checkExisting: async (req: AuthRequest, res: Response, next: NextFunction): Promise<void> => {
+    try {
+      const userId = parseInt(req.query.userId as string, 10);
+      const month = parseInt(req.query.month as string, 10);
+      const year = parseInt(req.query.year as string, 10);
+      const existing = await payslipService.checkExisting(userId, month, year);
+      res.json({ success: true, data: { exists: !!existing } });
+    } catch (error) {
+      next(error);
+    }
+  },
+
   downloadPayslip: async (req: AuthRequest, res: Response, next: NextFunction): Promise<void> => {
     try {
       const payslipId = parseInt(req.params.id as string, 10);

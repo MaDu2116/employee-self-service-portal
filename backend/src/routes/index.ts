@@ -47,8 +47,13 @@ router.post('/api/auth/register', authenticate, requireRole('HR_ADMIN'), authCon
 router.get('/api/profile', authenticate, profileController.getProfile);
 router.put('/api/profile', authenticate, profileController.updateProfile);
 
+// Users (HR search)
+router.get('/api/users/search', authenticate, requireRole('HR_ADMIN'), profileController.searchUsers);
+
 // Payslips
 router.get('/api/payslips', authenticate, payslipController.getMyPayslips);
+router.get('/api/payslips/check', authenticate, requireRole('HR_ADMIN'), payslipController.checkExisting);
+router.get('/api/payslips/user/:userId', authenticate, requireRole('HR_ADMIN'), payslipController.getPayslipsByUserId);
 router.get('/api/payslips/:id/download', authenticate, payslipController.downloadPayslip);
 router.post(
   '/api/payslips/upload',
