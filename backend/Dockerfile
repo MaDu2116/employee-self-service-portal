@@ -9,7 +9,7 @@ RUN npm ci --legacy-peer-deps
 COPY . .
 RUN npx prisma generate
 RUN npm run build
-RUN npx tsc --esModuleInterop --skipLibCheck --outDir ./dist/seed prisma/seed.ts
+RUN npx tsc --ignoreConfig --esModuleInterop --skipLibCheck --outDir ./dist/seed prisma/seed.ts
 
 # Stage 2: Production
 FROM node:20-alpine
