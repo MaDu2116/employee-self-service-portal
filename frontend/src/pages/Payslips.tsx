@@ -89,7 +89,6 @@ const HrPayslips: React.FC = () => {
   const [uploadModal, setUploadModal] = useState<{ open: boolean; user: SearchUser | null }>({ open: false, user: null });
   const [uploading, setUploading] = useState(false);
   const [duplicateWarning, setDuplicateWarning] = useState(false);
-  const [pendingUpload, setPendingUpload] = useState<FormData | null>(null);
   const [userPayslips, setUserPayslips] = useState<Record<number, UserPayslip[]>>({});
   const [expandedRowKeys, setExpandedRowKeys] = useState<number[]>([]);
   const [form] = Form.useForm();
@@ -141,7 +140,7 @@ const HrPayslips: React.FC = () => {
   const openUploadModal = (user: SearchUser) => {
     setUploadModal({ open: true, user });
     setDuplicateWarning(false);
-    setPendingUpload(null);
+
     form.resetFields();
     form.setFieldsValue({
       month: new Date().getMonth() + 1,
@@ -157,7 +156,7 @@ const HrPayslips: React.FC = () => {
       setUploadModal({ open: false, user: null });
       form.resetFields();
       setDuplicateWarning(false);
-      setPendingUpload(null);
+  
       if (uploadModal.user) {
         loadUserPayslips(uploadModal.user.id);
       }
@@ -182,7 +181,6 @@ const HrPayslips: React.FC = () => {
       const check = await payslipApi.checkExisting(uploadModal.user.id, values.month, values.year);
       if (check.data.data?.exists) {
         setDuplicateWarning(true);
-        setPendingUpload(formData);
         return;
       }
     } catch {
