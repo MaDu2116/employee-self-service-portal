@@ -1,0 +1,99 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+enum Role {
+  HR_ADMIN
+  EMPLOYEE
+}
+
+enum RequestType {
+  WORK_CONFIRMATION
+  CARD_REISSUE
+}
+
+enum RequestStatus {
+  PENDING
+  APPROVED
+  REJECTED
+}
+
+model User {
+  id           Int       @id @default(autoincrement())
+  email        String    @unique
+  password     String
+  fullName     String
+  role         Role      @default(EMPLOYEE)
+  phone        String?
+  address      String?
+  bankAccount  String?
+  departmentId Int?
+  position     String?
+  managerId    Int?
+  createdAt    DateTime  @default(now())
+  updatedAt    DateTime  @updatedAt
+
+  department    Department?    @relation(fields: [departmentId], references: [id])
+  manager       User?          @relation("ManagerEmployee", fields: [managerId], references: [id])
+  subordinates  User[]         @relation("ManagerEmployee")
+  payslips      Payslip[]
+  requests      AdminRequest[]
+  announcements Announcement[]
+}
+
+model Department {
+  id       Int          @id @default(autoincrement())
+  name     String       @unique
+  parentId Int?
+  parent   Department?  @relation("DeptHierarchy", fields: [parentId], references: [id])
+  children Department[] @relation("DeptHierarchy")
+  users    User[]
+}
+
+model Payslip {
+  id         Int      @id @default(autoincrement())
+  userId     Int
+  month      Int
+  year       Int
+  filePath   String
+  uploadedAt DateTime @default(now())
+  user       User     @relation(fields: [userId], references: [id])
+
+  @@unique([userId, month, year])
+}
+
+model Policy {
+  id        Int      @id @default(autoincrement())
+  title     String
+  category  String
+  content   String   @db.Text
+  filePath  String?
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+}
+
+model AdminRequest {
+  id        Int           @id @default(autoincrement())
+  userId    Int
+  type      RequestType
+  status    RequestStatus @default(PENDING)
+  details   String        @db.Text
+  response  String?       @db.Text
+  createdAt DateTime      @default(now())
+  updatedAt DateTime      @updatedAt
+  user      User          @relation(fields: [userId], references: [id])
+}
+
+model Announcement {
+  id        Int      @id @default(autoincrement())
+  title     String
+  content   String   @db.Text
+  authorId  Int
+  createdAt DateTime @default(now())
+  author    User     @relation(fields: [authorId], references: [id])
+}

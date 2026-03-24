@@ -53,5 +53,38 @@
 - Yêu cầu mỗi lần push code vào nhánh main của github thì sẽ tự động build tạo image 
 - Có file run.bat để đảm bảo user chỉ cần chạy file này là có thể tự động pull image mới nhất và chạy được (user đã có sẵn docker destop và sẽ sử dụng nó)
 12. Documentation
-- README có hướng dẫn setup và chạy project 
+- README có hướng dẫn setup và chạy project
 - Có API doc hoặc comment giải thích logic phức tạp
+
+13. Yêu cầu Docker & Triển khai Production
+- Ứng dụng được đóng gói thành Docker image và push lên registry (vd: Docker Hub)
+- Người dùng cuối CHỈ CẦN chạy một file duy nhất (run.bat trên Windows) để:
+  * Pull Docker images mới nhất
+  * Khởi động tất cả các service cần thiết
+  * Tự động khởi tạo database (chỉ lần chạy đầu tiên)
+- Lần chạy đầu tiên:
+  * PostgreSQL container tự động tạo database
+  * Prisma tự động tạo tất cả bảng bằng migrations (`prisma migrate deploy`)
+- Các lần chạy tiếp theo:
+  * Dữ liệu hiện có phải được bảo toàn (sử dụng Docker volumes)
+  * Prisma chỉ áp dụng migration mới nếu có
+- Prisma:
+  * Sử dụng `prisma migrate deploy` cho production
+  * Bao gồm seeding tùy chọn (`prisma db seed`)
+- Hệ thống phải xử lý được trường hợp database chưa sẵn sàng khi app khởi động (wait-for-it hoặc cơ chế tương tự)
+
+14. Các file output yêu cầu
+- docker-compose.yml: Bao gồm PostgreSQL service với volume, app service, biến môi trường, xử lý phụ thuộc service
+- Dockerfile: Tối ưu kích thước image, bao gồm Prisma client generation, chạy app với lệnh migration
+- run.bat: Pull images mới nhất, khởi động services
+- Tùy chọn: wait-for-it hoặc cơ chế đảm bảo DB sẵn sàng, seed script
+
+15. Ràng buộc
+- Giữ setup đơn giản cho người dùng cuối
+- Tuân thủ best practices cho production
+- Sử dụng quy ước đặt tên rõ ràng
+- Thêm comment trong code khi cần thiết
+
+16. AI-Log
+- Mọi prompt trong session này đều phải được lưu vào thư mục AI-Log
+- Ghi lại prompt log và tóm tắt iteration cho mỗi phiên làm việc
