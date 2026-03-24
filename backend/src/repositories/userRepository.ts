@@ -42,6 +42,27 @@ export const userRepository = {
       },
     }),
 
+  searchUsers: (query: string) =>
+    prisma.user.findMany({
+      where: {
+        OR: [
+          { fullName: { contains: query, mode: 'insensitive' } },
+          { email: { contains: query, mode: 'insensitive' } },
+          ...(isNaN(Number(query)) ? [] : [{ id: Number(query) }]),
+        ],
+      },
+      select: {
+        id: true,
+        email: true,
+        fullName: true,
+        role: true,
+        position: true,
+        department: { select: { id: true, name: true } },
+      },
+      orderBy: { fullName: 'asc' },
+      take: 50,
+    }),
+
   create: (data: {
     email: string;
     password: string;

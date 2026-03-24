@@ -10,6 +10,13 @@ export const payslipRepository = {
   findById: (id: number) =>
     prisma.payslip.findUnique({ where: { id } }),
 
+  findByUserIdWithUser: (userId: number) =>
+    prisma.payslip.findMany({
+      where: { userId },
+      include: { user: { select: { id: true, fullName: true, email: true } } },
+      orderBy: [{ year: 'desc' }, { month: 'desc' }],
+    }),
+
   create: (data: { userId: number; month: number; year: number; filePath: string }) =>
     prisma.payslip.create({ data }),
 
