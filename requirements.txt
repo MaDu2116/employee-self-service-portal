@@ -1,0 +1,57 @@
+1.Bối cảnh
+- Nhân viên muốn tra cứu thông tin hợp đồng, phiếu lương, chính sách công ty mà không cần liên hệ HR mỗi lần. HR muốn giảm tải các câu hỏi lặp lại.
+
+2.Yêu cầu chức năng:
+- Hồ sơ cá nhân: xem và cập nhật thông tin (địa chỉ, số điện thoại, tài khoản ngân hàng)
+- Xem phiếu lương hàng tháng (do HR upload PDF)
+- Tra cứu chính sách công ty (tài liệu phân loại theo chủ đề, có tìm kiếm)
+- Yêu cầu hành chính: xin xác nhận công tác, xin cấp lại thẻ — theo dõi trạng thái
+- Thông báo nội bộ từ HR/Ban giám đốc (HR đăng, nhân viên xem)
+- Sơ đồ tổ chức công ty (org chart theo phòng ban)
+3.Yêu cầu phi chức năng
+- Phân quyền: HR Admin, Employee
+- Bảo mật thông tin lương (chỉ bản thân xem được phiếu của mình)
+4.Gợi ý kỹ thuật
+- Org chart: react-organizational-chart / OrgChart.js
+- PDF viewer: react-pdf
+
+5.Rule: 
+- Tạo thư mục 'AI-Log' chứa prompt log và tóm tắt iteration 
+6.Tính năng hoàn thiện: 
+- Tất cả tính năng core hoạt động không lỗi?
+- UI hiển thị đúng, không bị vỡ layout trên màn hình 1080p?
+- Xử lý được input rỗng / sai format mà không crash?
+- Có ít nhất 1 tính năng nâng cao ngoài core?
+- Response time < 3 giây cho thao tác thông thường?
+- Có thông báo lỗi thân thiện (không lộ stack trace)?
+7. Yêu cầu kỹ thuật 
+- Repo Git có README đầy đủ
+- Docker/Docker Compose config hoàn chỉnh
+- Coverage report ≥ 60% (GitLab CI hoặc máy dev)
+- /health endpoint hoặc health check
+8. Yêu cầu code quality
+- Folder structure tách layer rõ ràng (API/Service/Repository/DB)?
+- Tên biến/hàm tự mô tả, không cần đọc comment mới hiểu?
+- Không có duplicate block code > 20 dòng?
+- Không có magic number / string hardcode quan trọng?
+- Không có dead code rõ ràng (commented-out block lớn, hàm không dùng)?
+- Không có file nào > 500 dòng (hoặc có lý do kỹ thuật rõ ràng)?
+9. Kiến trúc hệ thống:
+- Có diagram kiến trúc (sơ đồ hệ thống) trong slide hoặc README?
+- Diagram khớp với code thực tế (folder structure / service thực)?
+- Có phân tách rõ ràng giữa business logic và infrastructure code?
+10. Testing
+- Có unit test cho business logic function chính?
+- Tất cả test đang pass (không có test bị skip/fail)?
+- Coverage ≥ 60%?
+- Có ít nhất 1 integration test hoặc automation test?
+11. DevOps / CI-CD
+- Có CI pipeline chạy tự động khi push code
+- Có Pipeline bao gồm bước chạy test
+- Có /health endpoint trả về status OK
+- Có structured log (JSON hoặc có level: INFO/ERROR)
+- Yêu cầu mỗi lần push code vào nhánh main của github thì sẽ tự động build tạo image 
+- Có file run.bat để đảm bảo user chỉ cần chạy file này là có thể tự động pull image mới nhất và chạy được (user đã có sẵn docker destop và sẽ sử dụng nó)
+12. Documentation
+- README có hướng dẫn setup và chạy project 
+- Có API doc hoặc comment giải thích logic phức tạp
