@@ -108,7 +108,10 @@ npm run dev
 | PUT | `/api/profile` | Cập nhật hồ sơ | All |
 | GET | `/api/payslips` | Danh sách phiếu lương | All |
 | GET | `/api/payslips/:id/download` | Tải phiếu lương | Owner/HR |
+| GET | `/api/payslips/user/:userId` | Phiếu lương của nhân viên | HR Admin |
+| GET | `/api/payslips/check?userId&month&year` | Kiểm tra trùng lặp | HR Admin |
 | POST | `/api/payslips/upload` | Upload phiếu lương | HR Admin |
+| GET | `/api/users/search?q=` | Tìm nhân viên theo ID/tên/email | HR Admin |
 | GET | `/api/policies` | Danh sách chính sách | All |
 | GET | `/api/policies/search?q=` | Tìm kiếm chính sách | All |
 | POST | `/api/policies` | Tạo chính sách | HR Admin |
@@ -197,3 +200,18 @@ Mỗi lần cập nhật **bắt buộc** ghi rõ 3 thông tin:
 - 6 chức năng core: Profile, Payslips, Policies, Requests, Announcements, OrgChart
 - Docker Compose: 3 services (PostgreSQL, Backend, Frontend/Nginx)
 - Auto migration + seed khi lần đầu chạy, data persist qua Docker volumes
+
+### [1.1.0] - 2026-03-25
+
+**Tên tính năng**: Redesign Payslip UI cho HR Admin + Bug fixes
+
+**Files thay đổi**:
+- `backend/` — 3 API mới (user search, payslip by user, check existing), tsconfig.seed.json, initial migration
+- `frontend/src/pages/Payslips.tsx` — redesign hoàn toàn cho HR Admin
+- `frontend/src/services/api.ts` — thêm userApi, payslip APIs mới
+- `CLAUDE.md`, `AI-Log/iteration-2.md` — documentation mới
+
+**Cách hoạt động**:
+- HR Admin: Search nhân viên theo ID/tên/email → bảng kết quả với expandable rows → upload phiếu lương per-user → cảnh báo trùng lặp
+- Employee: Giữ nguyên layout cũ
+- Docker: Prisma migration tự tạo tables, seed data, app start
